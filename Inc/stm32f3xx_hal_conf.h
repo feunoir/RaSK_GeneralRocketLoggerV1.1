@@ -71,9 +71,9 @@
 /*#define HAL_LCD_MODULE_ENABLED   */
 /*#define HAL_LPTIM_MODULE_ENABLED   */
 /*#define HAL_RNG_MODULE_ENABLED   */
-/*#define HAL_RTC_MODULE_ENABLED   */
+#define HAL_RTC_MODULE_ENABLED
 #define HAL_SPI_MODULE_ENABLED
-/*#define HAL_TIM_MODULE_ENABLED   */
+#define HAL_TIM_MODULE_ENABLED
 #define HAL_UART_MODULE_ENABLED
 /*#define HAL_USART_MODULE_ENABLED   */
 /*#define HAL_IRDA_MODULE_ENABLED   */
@@ -142,7 +142,7 @@
   * @brief Time out for LSE start up value in ms.
   */
 #if !defined  (LSE_STARTUP_TIMEOUT)
-  #define LSE_STARTUP_TIMEOUT    ((uint32_t)5000)   /*!< Time out for LSE start up, in ms */
+  #define LSE_STARTUP_TIMEOUT    ((uint32_t)1000)   /*!< Time out for LSE start up, in ms */
 #endif /* LSE_STARTUP_TIMEOUT */
 
 /**
