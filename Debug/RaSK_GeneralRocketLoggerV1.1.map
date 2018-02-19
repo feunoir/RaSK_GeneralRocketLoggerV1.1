@@ -3401,7 +3401,7 @@ LOAD c:/program files (x86)/atollic/truestudio for stm32 9.0.0/armtools/bin/../l
                 0x00000fb1       0x22 c:/program files (x86)/atollic/truestudio for stm32 9.0.0/armtools/bin/../lib/gcc/arm-atollic-eabi/6.3.1/armv7e-m/fpu/crtn.o
 OUTPUT(RaSK_GeneralRocketLoggerV1.1.elf elf32-littlearm)
 
-.debug_info     0x00000000    0x3182d
+.debug_info     0x00000000    0x3180d
  .debug_info    0x00000000      0xfe0 Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal.o
  .debug_info    0x00000fe0     0x16de Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal_cortex.o
  .debug_info    0x000026be      0xf98 Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal_gpio.o
@@ -3422,15 +3422,15 @@ OUTPUT(RaSK_GeneralRocketLoggerV1.1.elf elf32-littlearm)
  .debug_info    0x00020398      0xcb9 Middlewares\Third_Party\FatFs\src\diskio.o
  .debug_info    0x00021051     0x42a4 Middlewares\Third_Party\FatFs\src\ff.o
  .debug_info    0x000252f5      0xcef Middlewares\Third_Party\FatFs\src\ff_gen_drv.o
- .debug_info    0x00025fe4     0x1566 Src\LPS22HB.o
- .debug_info    0x0002754a      0xdc1 Src\fatfs.o
- .debug_info    0x0002830b     0x454e Src\main.o
- .debug_info    0x0002c859     0x2186 Src\stm32f3xx_hal_msp.o
- .debug_info    0x0002e9df      0xf00 Src\stm32f3xx_it.o
- .debug_info    0x0002f8df      0xc20 Src\system_stm32f3xx.o
- .debug_info    0x000304ff      0xbdf Src\user_diskio.o
- .debug_info    0x000310de      0x6b4 Src\xprintf.o
- .debug_info    0x00031792       0x9b startup\startup_stm32f303xe.o
+ .debug_info    0x00025fe4     0x1556 Src\LPS22HB.o
+ .debug_info    0x0002753a      0xdc1 Src\fatfs.o
+ .debug_info    0x000282fb     0x453e Src\main.o
+ .debug_info    0x0002c839     0x2186 Src\stm32f3xx_hal_msp.o
+ .debug_info    0x0002e9bf      0xf00 Src\stm32f3xx_it.o
+ .debug_info    0x0002f8bf      0xc20 Src\system_stm32f3xx.o
+ .debug_info    0x000304df      0xbdf Src\user_diskio.o
+ .debug_info    0x000310be      0x6b4 Src\xprintf.o
+ .debug_info    0x00031772       0x9b startup\startup_stm32f303xe.o
 
 .debug_abbrev   0x00000000     0x5226
  .debug_abbrev  0x00000000      0x2b3 Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal.o
