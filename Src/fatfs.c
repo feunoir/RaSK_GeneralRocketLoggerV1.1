@@ -60,7 +60,7 @@ FATFS SDFatFs;
 void MX_FATFS_Init(void) 
 {
   /*## FatFS: Link the USER driver ###########################*/
-  retUSER = FATFS_LinkDriver(&USER_Driver, USERPath);
+  retUSER = FATFS_LinkDriver(&SD_Driver, USERPath);
 
   /* USER CODE BEGIN Init */
 
