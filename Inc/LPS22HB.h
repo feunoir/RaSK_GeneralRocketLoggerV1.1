@@ -71,7 +71,7 @@ typedef enum {
 
 
 typedef struct {
-	const volatile I2C_HandleTypeDef* hi2c;
+	I2C_HandleTypeDef* hi2c;
 	LPS22HB_Address_t address;
 	float pressure;
 	uint32_t pressure_raw;
