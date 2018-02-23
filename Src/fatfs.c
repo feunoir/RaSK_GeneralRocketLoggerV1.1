@@ -66,10 +66,7 @@ void MX_FATFS_Init(void)
 
   // If you regenerate codes, you should replace "USER_Driver" to "SD_Driver".
 
-
-  //FRESULT res;
   f_mount(&SDFatFs, (TCHAR const*)USERPath, 0);
-  //xprintf("f_mount() res=%d\n", (int)res);
   /* additional user code for init */     
   /* USER CODE END Init */
 }

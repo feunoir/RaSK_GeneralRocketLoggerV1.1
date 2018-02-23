@@ -62,6 +62,8 @@
 //  If you regenerate codes, you should comment out "#include "user_diskio.h".
 #include "sd_diskio.h"
 
+#include "open_append.h"
+
 /* USER CODE END Includes */
 
 extern uint8_t retUSER; /* Return value for USER */
