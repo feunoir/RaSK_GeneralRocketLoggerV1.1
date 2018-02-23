@@ -54,9 +54,11 @@
 
 
 #include <stdlib.h>
+#include "leastsquare.h"
+#include "../uart_wrapper/uart_wrapper.h"
+
 #include "LPS22HB.h"
 #include "../MPU9250/MPU9250.h"
-#include "xprintf.h"
 
 /* USER CODE END Includes */
 
@@ -125,16 +127,9 @@ void Init_LoggerSystem(void);
 void Config_OnePulseDelayTime(float delay);
 void Config_Logdir(void);
 int Check_Bootcount(void);
-float Calc_LeastSquare_Int(uint32_t *time, uint32_t *data, uint8_t pos, uint8_t n);
-float Calc_LeastSquare_Float(uint32_t *time, float *data, uint8_t pos, uint8_t n);
 void Estimate_Status(Flight_Info_t* finfo);
 void Trigger_ReleaseSystem(void);
 
-// Function Wrapper
-uint8_t uart_getc(void);
-void uart_putc(uint8_t c);
-void uart_puts(char *str);
-FRESULT open_append(FIL* fp, const char* path);
 
 char dir_syslog[20] = "SYSLOG.TXT";
 char dir_datlog[20] = "DATLOG.CSV";
@@ -166,8 +161,7 @@ int main(void)
 
   //initialise_monitor_handles();
 
-  xdev_out(uart_putc);
-  xdev_in(uart_getc);
+
 
   /* USER CODE END 1 */
 
@@ -379,7 +373,8 @@ static void MX_I2C1_Init(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-    /**Configure Analogue filter 
+    /**Configure Analogue filter
+     *
     */
   if (HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
   {
@@ -862,50 +857,6 @@ int Check_Bootcount(void)
     return bootcount;
 }
 
-/**
- * Calculate slope from integer arrayed data
- */
-float Calc_LeastSquare_Int(uint32_t *time, uint32_t *data, uint8_t pos, uint8_t n)
-{
-    double  sum_xy = 0,
-            sum_x = 0,
-            sum_y = 0,
-            sum_x2 = 0;
-    uint8_t i = pos - n;
-
-    do {
-        sum_xy += (double)time[i] * (double)data[i];
-        sum_x += (double)time[i];
-        sum_y += (double)data[i];
-        sum_x2 += (double)time[i] * (double)time[i];
-        i++;
-    } while(i != pos);
-
-	return ( (float)((n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x)) );
-}
-
-/**
- * Calculate slope from floating point arrayed data
- */
-float Calc_LeastSquare_Float(uint32_t *time, float *data, uint8_t pos, uint8_t n)
-{
-    double  sum_xy = 0,
-            sum_x = 0,
-            sum_y = 0,
-            sum_x2 = 0;
-    uint8_t i = pos - n;
-
-    do {
-        sum_xy += (double)time[i] * (double)data[i];
-        sum_x += (double)time[i];
-        sum_y += (double)data[i];
-        sum_x2 += (double)time[i] * (double)time[i];
-        i++;
-    } while(i != pos);
-
-	return ( (float)((n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x)) );
-}
-
 
 /**
  * 	Estimate rocket status from sensor data calculation
@@ -983,7 +934,7 @@ void Estimate_Status(Flight_Info_t* finfo)
         //  rocket is under acceleration
         case Rocket_Launched: {
             //
-            if( Calc_LeastSquare_Float(finfo->time, finfo->slope, finfo->d_pos, 15) >= 0.0 || finfo->accel[finfo->d_pos] <= 0.8f ) {
+            if( calc_leastsquare_floatin(finfo->time, finfo->slope, finfo->d_pos, 15) >= 0.0 || finfo->accel[finfo->d_pos] <= 0.8f ) {
 
                 //  record log
                 open_append(&fsys, dir_syslog);
@@ -1109,52 +1060,9 @@ void Trigger_ReleaseSystem(void)
 #endif
 }
 
-
-/**
- * UART Wrapper
- */
-uint8_t uart_getc(void)
-{
-	uint8_t c = 0;
-	char buf[1];
-	HAL_UART_Receive(&huart4, (uint8_t *)buf, sizeof(buf), 0xFFFF);
-	c = buf[0];
-	return c;
-}
-void uart_putc(uint8_t c)
-{
-	char buf[1];
-	buf[0] = c;
-	HAL_UART_Transmit(&huart4, (uint8_t *)buf, sizeof(buf), 0xFFFF);
-}
-void uart_puts(char *str)
-{
-	while (*str) {
-		uart_putc(*str++);
-	}
-}
-
-
 /**
  * FatFs file open with append mode
  */
-FRESULT open_append(
-	    FIL* fp,            /* [OUT] File object to create */
-	    const char* path    /* [IN]  File name to be opened */
-		)
-{
-    FRESULT fr;
-
-    /* Opens an existing file. If not exist, creates a new file. */
-    fr = f_open(fp, path, FA_WRITE | FA_OPEN_ALWAYS);
-    if (fr == FR_OK) {
-        /* Seek to end of the file to append data */
-        fr = f_lseek(fp, f_size(fp));
-        if (fr != FR_OK)
-            f_close(fp);
-    }
-    return fr;
-}
 
 /* USER CODE END 4 */
 
